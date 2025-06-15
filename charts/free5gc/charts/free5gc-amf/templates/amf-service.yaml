@@ -41,16 +41,23 @@ metadata:
   labels:
     project: {{ $.Values.global.projectName }}
     nf: {{ .name }}
+  annotations:
+    loxilb.io/probetype: "none"
+    loxilb.io/lbmode: "fullproxy"
+    loxilb.io/epselect: "n2"
+    loxilb.io/multus-nets: "n2network-free5gc-helm-free5gc-amf"
 spec:
   type: {{ $.Values.global.amf.service.ngap.type }}
   ports:
     - name: n2
-      port: {{ $.Values.global.amf.service.ngap.port }}
-      nodePort: {{ $.Values.global.amf.service.ngap.nodeport }}
+      port: {{ $.Values.global.amf.service.ngap.nodeport }}
+      nodePort: {{ $.Values.global.amf.service.ngap.port }}
       protocol: {{ $.Values.global.amf.service.ngap.protocol }}
+      targetPort: {{ $.Values.global.amf.service.ngap.port }}
   selector:
     project: {{ $.Values.global.projectName }}
     nf: {{ .name }}
+  loadBalancerClass: "loxilb.io/loxilb"
 {{- end }}
 {{- end }}
 

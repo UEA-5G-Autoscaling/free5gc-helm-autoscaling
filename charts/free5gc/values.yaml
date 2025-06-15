@@ -27,15 +27,15 @@ global:
     scheme: http
   amf:
     n2if:  # NGAP
-      ipAddress: 10.100.50.249
+      ipAddress: 10.100.50.249 # Only used if service is disabled
     service:
       ngap:
-        enabled: false
+        enabled: true
         name: amf-n2
         port: 38412
         nodeport: 31412
         protocol: SCTP
-        type: NodePort
+        type: LoadBalancer
   smf:
     n4if:
       ipAddress: 10.100.50.244
@@ -45,10 +45,10 @@ global:
     name: n2network
     type: ipvlan
     masterIf: eth0
-    subnetIP: 10.100.50.248
-    cidr: 29
-    gatewayIP: 10.100.50.254
-    excludeIP: 10.100.50.254
+    subnetIP: 10.100.51.0
+    cidr: 24
+    gatewayIP: 10.100.51.1
+    excludeIP: 10.100.51.254
   n3network:
     enabled: true
     name: n3network
@@ -119,7 +119,7 @@ mongodb:
     size: 6Gi
     mountPath: /bitnami/mongodb/data/db/
   service:
-    name: mongodb
+    name: mongodb-0.mongodb-headless # REPLACE
     type: ClusterIP
     port: 27017
     nodePort: "30017"

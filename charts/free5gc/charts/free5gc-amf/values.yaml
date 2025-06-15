@@ -29,7 +29,7 @@ global:
     scheme: http
   amf:
     n2if:  # NGAP
-      ipAddress: 10.100.50.249
+      ipAddress: 10.100.50.249 # Only used if service is disabled
     service:
       ngap:
         enabled: false
@@ -37,7 +37,7 @@ global:
         port: 38412
         nodeport: 31412
         protocol: SCTP
-        type: NodePort
+        type: LoadBalancer
   n2network:
     enabled: true
     name: n2network
@@ -80,7 +80,7 @@ amf:
   securityContext: {}
   resources:
     requests:
-      cpu: 150m
+      cpu: 250m
       memory: 128Mi
   readinessProbe:
     initialDelaySeconds: 0
@@ -98,9 +98,9 @@ amf:
   tolerations: []
   affinity: {}
   autoscaling:
-    enabled: false
+    enabled: true
     minReplicas: 1
-    maxReplicas: 100
+    maxReplicas: 5
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
   ingress:
